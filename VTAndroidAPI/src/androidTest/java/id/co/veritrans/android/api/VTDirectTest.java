@@ -1,15 +1,12 @@
 package id.co.veritrans.android.api;
 
 import android.test.InstrumentationTestCase;
-import android.util.Log;
-
-import com.google.gson.Gson;
 
 import id.co.veritrans.android.api.VTInterface.ITokenCallback;
 import id.co.veritrans.android.api.VTModel.VTCardDetails;
 import id.co.veritrans.android.api.VTModel.VTCardDetailsTest;
 import id.co.veritrans.android.api.VTModel.VTToken;
-import id.co.veritrans.android.api.VTModel.VTTwoClicksTwoDetails;
+import id.co.veritrans.android.api.VTModel.VTTwoClicksCardDetails;
 import id.co.veritrans.android.api.VTUtil.VTConfig;
 
 /**
@@ -79,7 +76,7 @@ public class VTDirectTest extends InstrumentationTestCase {
         VTConfig.CLIENT_KEY = "VT-client-3YUXFj6X0XBpeDgf";
 
         VTDirect vtDirect = new VTDirect();
-        VTTwoClicksTwoDetails cardDetails = VTCardDetailsTest.TwoClicksCardFactory(true);
+        VTTwoClicksCardDetails cardDetails = VTCardDetailsTest.TwoClicksCardFactory(true);
         vtDirect.setCard_details(cardDetails);
 
         vtDirect.getToken(new ITokenCallback() {
@@ -103,7 +100,7 @@ public class VTDirectTest extends InstrumentationTestCase {
         VTConfig.CLIENT_KEY = "VT-client-3YUXFj6X0XBpeDgf";
 
         VTDirect vtDirect = new VTDirect();
-        VTTwoClicksTwoDetails cardDetails = VTCardDetailsTest.TwoClicksCardFactory(false);
+        VTTwoClicksCardDetails cardDetails = VTCardDetailsTest.TwoClicksCardFactory(false);
         vtDirect.setCard_details(cardDetails);
 
         vtDirect.getToken(new ITokenCallback() {

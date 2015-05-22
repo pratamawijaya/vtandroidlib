@@ -3,7 +3,7 @@ package id.co.veritrans.android.api.VTModel;
 /**
  * Created by muhammadanis on 5/22/15.
  */
-public class VTTwoClicksTwoDetails extends VTCardDetails {
+public class VTTwoClicksCardDetails extends VTCardDetails {
     private boolean isTwoClicks;
     private String tokenId;
 

@@ -52,9 +52,9 @@ public class VTCardDetailsTest extends InstrumentationTestCase {
         return cardDetails;
     }
 
-    public static  VTTwoClicksTwoDetails TwoClicksCardFactory(boolean secure){
+    public static VTTwoClicksCardDetails TwoClicksCardFactory(boolean secure){
 
-        VTTwoClicksTwoDetails cardDetails = new VTTwoClicksTwoDetails();
+        VTTwoClicksCardDetails cardDetails = new VTTwoClicksCardDetails();
         cardDetails.setCard_number("4811111111111114");
         cardDetails.setCard_cvv("123");
         cardDetails.setCard_exp_month(1);
