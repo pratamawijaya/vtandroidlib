@@ -9,6 +9,7 @@ import id.co.veritrans.android.api.VTInterface.ITokenCallback;
 import id.co.veritrans.android.api.VTModel.VTCardDetails;
 import id.co.veritrans.android.api.VTModel.VTCardDetailsTest;
 import id.co.veritrans.android.api.VTModel.VTToken;
+import id.co.veritrans.android.api.VTModel.VTTwoClicksTwoDetails;
 import id.co.veritrans.android.api.VTUtil.VTConfig;
 
 /**
@@ -69,6 +70,54 @@ public class VTDirectTest extends InstrumentationTestCase {
             }
 
 
+        });
+    }
+
+    public void testGetTokenSecureTwoClicks(){
+
+        VTConfig.VT_IsProduction = false;
+        VTConfig.CLIENT_KEY = "VT-client-3YUXFj6X0XBpeDgf";
+
+        VTDirect vtDirect = new VTDirect();
+        VTTwoClicksTwoDetails cardDetails = VTCardDetailsTest.TwoClicksCardFactory(true);
+        vtDirect.setCard_details(cardDetails);
+
+        vtDirect.getToken(new ITokenCallback() {
+            @Override
+            public void onSuccess(VTToken token) {
+                assertNotNull(token.toString(),token);
+                assertNull(token.getRedirect_url(),token.getRedirect_url());
+                assertNotNull(token.getToken_id(),token.getToken_id());
+            }
+
+            @Override
+            public void onError(Exception error) {
+                assertTrue(error.getMessage(),false);
+            }
+        });
+    }
+
+    public void testGetTokenNotSecureTwoClicks(){
+
+        VTConfig.VT_IsProduction = false;
+        VTConfig.CLIENT_KEY = "VT-client-3YUXFj6X0XBpeDgf";
+
+        VTDirect vtDirect = new VTDirect();
+        VTTwoClicksTwoDetails cardDetails = VTCardDetailsTest.TwoClicksCardFactory(false);
+        vtDirect.setCard_details(cardDetails);
+
+        vtDirect.getToken(new ITokenCallback() {
+            @Override
+            public void onSuccess(VTToken token) {
+                assertNotNull(token.toString(),token);
+                assertNull(token.getRedirect_url(),token.getRedirect_url());
+                assertNotNull(token.getToken_id(),token.getToken_id());
+            }
+
+            @Override
+            public void onError(Exception error) {
+                assertTrue(error.getMessage(),false);
+            }
         });
     }
 }

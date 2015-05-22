@@ -51,4 +51,18 @@ public class VTCardDetailsTest extends InstrumentationTestCase {
         cardDetails.setGross_amount("1000000");
         return cardDetails;
     }
+
+    public static  VTTwoClicksTwoDetails TwoClicksCardFactory(boolean secure){
+
+        VTTwoClicksTwoDetails cardDetails = new VTTwoClicksTwoDetails();
+        cardDetails.setCard_number("4811111111111114");
+        cardDetails.setCard_cvv("123");
+        cardDetails.setCard_exp_month(1);
+        cardDetails.setCard_exp_year(2020);
+        cardDetails.setSecure(secure);
+        cardDetails.setGross_amount("1000000");
+        cardDetails.setIsTwoClicks(true);
+        cardDetails.setTokenId("tokenid");
+        return cardDetails;
+    }
 }
