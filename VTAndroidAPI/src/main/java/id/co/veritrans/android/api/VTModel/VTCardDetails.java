@@ -17,6 +17,7 @@ public class VTCardDetails {
     private boolean secure;
     private String bank = null;
     private String gross_amount;
+    private boolean authorize = false;
 
     public String getCard_number() {
         return card_number;
@@ -75,7 +76,8 @@ public class VTCardDetails {
     }
 
     public String getParamUrl(){
-        return "?card_number="+card_number
+
+        String paramUrl = "?card_number="+card_number
                 + "&card_exp_month="+card_exp_month
                 + "&card_exp_year="+card_exp_year
                 + "&card_cvv="+card_cvv
@@ -83,6 +85,12 @@ public class VTCardDetails {
                 + "&secure="+Boolean.toString(secure)
                 + getBankParam()
                 + "&gross_amount="+gross_amount;
+
+        if(isAuthorize()) {
+            paramUrl += "&type=authorize";
+        }
+
+        return paramUrl;
     }
 
     public String getBankParam(){
@@ -90,5 +98,13 @@ public class VTCardDetails {
             return "&bank="+bank;
         }
         return "";
+    }
+
+    public boolean isAuthorize() {
+        return authorize;
+    }
+
+    public void setAuthorize(boolean authorize) {
+        this.authorize = authorize;
     }
 }

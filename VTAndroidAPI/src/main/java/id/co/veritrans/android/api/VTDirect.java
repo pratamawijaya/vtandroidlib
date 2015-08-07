@@ -20,6 +20,7 @@ import id.co.veritrans.android.api.VTInterface.ITokenCallback;
 import id.co.veritrans.android.api.VTModel.VTCardDetails;
 import id.co.veritrans.android.api.VTModel.VTToken;
 import id.co.veritrans.android.api.VTUtil.VTConfig;
+import retrofit.RestAdapter;
 
 /**
  * Created by Anis on 11/13/2014.
@@ -62,32 +63,18 @@ public class VTDirect extends VTBaseTransactionMethod {
         protected Object doInBackground(String... strings) {
             String url = strings[0];
             try {
-                URI uri = URI.create(url);
-                HttpGet httpRequest = new HttpGet(uri);
-                HttpClient httpClient = new DefaultHttpClient();
-                HttpResponse response = httpClient.execute(httpRequest);
-                BufferedReader reader = new BufferedReader(
-                        new InputStreamReader(response.getEntity().getContent(),"UTF-8")
-                );
-                String line = null;
-                StringBuilder sb = new StringBuilder();
-                // Read Server Response
-                while ((line = reader.readLine()) != null) {
-                    // Append server response in string
-                    sb.append(line + "");
-                }
-                String json = sb.toString();
-                Gson gson = new Gson();
-                VTToken token = gson.fromJson(json,VTToken.class);
+
+                RestAdapter restAdapter = new RestAdapter.Builder().setEndpoint(url).build();
+                GetToken getToken = restAdapter.create(GetToken.class);
+
+                VTToken token = getToken.doGetToken();
+
                 if(token.getStatus_code() == 200){
                     return token;
                 }else{
                     return new Exception(token.getStatus_message());
                 }
 
-            } catch (IOException e) {
-                e.printStackTrace();
-                return e;
             } catch (IllegalArgumentException e){
                 e.printStackTrace();
                 return e;
