@@ -70,6 +70,36 @@ public class VTDirectTest extends InstrumentationTestCase {
         });
     }
 
+    public void testGetTokenNotSecurePreAuth(){
+
+        VTConfig.VT_IsProduction = false;
+        VTConfig.CLIENT_KEY = "VT-client-3YUXFj6X0XBpeDgf";
+
+        VTDirect vtDirect = new VTDirect();
+
+        VTCardDetails cardDetails = VTCardDetailsTest.CardFactory(false);
+        cardDetails.setAuthorize(true);
+        vtDirect.setCard_details(cardDetails);
+
+        vtDirect.getToken(new ITokenCallback() {
+            @Override
+            public void onSuccess(VTToken token) {
+                assertNotNull(token.toString(),token);
+                assertNull(token.getRedirect_url(),token.getRedirect_url());
+                assertNotNull(token.getToken_id(),token.getToken_id());
+            }
+
+            @Override
+            public void onError(Exception error) {
+
+                assertTrue(error.getMessage(),false);
+
+            }
+
+
+        });
+    }
+
     public void testGetTokenSecureTwoClicks(){
 
         VTConfig.VT_IsProduction = false;

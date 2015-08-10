@@ -2,6 +2,9 @@ package id.co.veritrans.android.api.VTModel;
 
 import com.google.gson.Gson;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import id.co.veritrans.android.api.VTUtil.VTConfig;
 
 /**
@@ -17,6 +20,7 @@ public class VTCardDetails {
     private boolean secure;
     private String bank = null;
     private String gross_amount;
+    private boolean authorize = false;
 
     public String getCard_number() {
         return card_number;
@@ -74,8 +78,29 @@ public class VTCardDetails {
         this.gross_amount = gross_amount;
     }
 
+    public Map<String, String> getParamMap() {
+        Map<String, String> parameter = new HashMap<>();
+
+        parameter.put("card_cvv", getCard_cvv());
+        parameter.put("card_number", getCard_number());
+        parameter.put("card_exp_month", String.valueOf(getCard_exp_month()));
+        parameter.put("card_exp_year", String.valueOf(getCard_exp_year()));
+
+        if(isSecure()) {
+            parameter.put("secure", String.valueOf(isSecure()));
+            parameter.put("gross_amount", getGross_amount());
+        }
+
+        if(isAuthorize()) {
+            parameter.put("type", "authorize");
+        }
+
+        return parameter;
+    }
+
     public String getParamUrl(){
-        return "?card_number="+card_number
+
+        String paramUrl = "?card_number="+card_number
                 + "&card_exp_month="+card_exp_month
                 + "&card_exp_year="+card_exp_year
                 + "&card_cvv="+card_cvv
@@ -83,6 +108,12 @@ public class VTCardDetails {
                 + "&secure="+Boolean.toString(secure)
                 + getBankParam()
                 + "&gross_amount="+gross_amount;
+
+        if(isAuthorize()) {
+            paramUrl += "&type=authorize";
+        }
+
+        return paramUrl;
     }
 
     public String getBankParam(){
@@ -90,5 +121,13 @@ public class VTCardDetails {
             return "&bank="+bank;
         }
         return "";
+    }
+
+    public boolean isAuthorize() {
+        return authorize;
+    }
+
+    public void setAuthorize(boolean authorize) {
+        this.authorize = authorize;
     }
 }

@@ -14,12 +14,14 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URI;
+import java.util.Map;
 import java.util.Objects;
 
 import id.co.veritrans.android.api.VTInterface.ITokenCallback;
 import id.co.veritrans.android.api.VTModel.VTCardDetails;
 import id.co.veritrans.android.api.VTModel.VTToken;
 import id.co.veritrans.android.api.VTUtil.VTConfig;
+import retrofit.RestAdapter;
 
 /**
  * Created by Anis on 11/13/2014.
@@ -46,48 +48,35 @@ public class VTDirect extends VTBaseTransactionMethod {
     @Override
     public void getToken(ITokenCallback callback) {
         if(callback != null && getCard_details() != null){
-            String url = VTConfig.getTokenUrl() + getCard_details().getParamUrl();
-            new GetTokenAsync(callback).execute(url);
+            new GetTokenAsync(callback, getCard_details().getParamMap()).execute(VTConfig.getTokenUrl());
         }
     }
 
     class GetTokenAsync extends AsyncTask<String,Void,Object>{
 
         ITokenCallback callback;
-        public  GetTokenAsync(ITokenCallback callback){
+        Map<String, String> parameter;
+        public  GetTokenAsync(ITokenCallback callback, Map<String, String> parameter){
             this.callback = callback;
+            this.parameter = parameter;
         }
 
         @Override
         protected Object doInBackground(String... strings) {
             String url = strings[0];
             try {
-                URI uri = URI.create(url);
-                HttpGet httpRequest = new HttpGet(uri);
-                HttpClient httpClient = new DefaultHttpClient();
-                HttpResponse response = httpClient.execute(httpRequest);
-                BufferedReader reader = new BufferedReader(
-                        new InputStreamReader(response.getEntity().getContent(),"UTF-8")
-                );
-                String line = null;
-                StringBuilder sb = new StringBuilder();
-                // Read Server Response
-                while ((line = reader.readLine()) != null) {
-                    // Append server response in string
-                    sb.append(line + "");
-                }
-                String json = sb.toString();
-                Gson gson = new Gson();
-                VTToken token = gson.fromJson(json,VTToken.class);
+
+                RestAdapter restAdapter = new RestAdapter.Builder().setEndpoint(url).build();
+                GetToken getToken = restAdapter.create(GetToken.class);
+
+                VTToken token = getToken.doGetToken(this.parameter);
+
                 if(token.getStatus_code() == 200){
                     return token;
-                }else{
+                } else {
                     return new Exception(token.getStatus_message());
                 }
 
-            } catch (IOException e) {
-                e.printStackTrace();
-                return e;
             } catch (IllegalArgumentException e){
                 e.printStackTrace();
                 return e;
