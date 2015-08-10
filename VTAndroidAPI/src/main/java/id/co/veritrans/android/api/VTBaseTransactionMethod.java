@@ -1,9 +1,12 @@
 package id.co.veritrans.android.api;
 
+import java.util.Map;
+
 import id.co.veritrans.android.api.VTInterface.ITokenCallback;
 import id.co.veritrans.android.api.VTModel.VTBaseTransaction;
 import id.co.veritrans.android.api.VTModel.VTToken;
 import retrofit.http.GET;
+import retrofit.http.QueryMap;
 
 /**
  * Created by Anis on 11/12/2014.
@@ -26,8 +29,8 @@ public abstract class VTBaseTransactionMethod {
     }
 
     public interface GetToken {
-        @GET("")
-        VTToken doGetToken();
+        @GET("/")
+        VTToken doGetToken(@QueryMap Map<String, String> option);
     }
 
 }

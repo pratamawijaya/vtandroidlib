@@ -2,6 +2,9 @@ package id.co.veritrans.android.api.VTModel;
 
 import com.google.gson.Gson;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import id.co.veritrans.android.api.VTUtil.VTConfig;
 
 /**
@@ -73,6 +76,26 @@ public class VTCardDetails {
 
     public void setGross_amount(String gross_amount) {
         this.gross_amount = gross_amount;
+    }
+
+    public Map<String, String> getParamMap() {
+        Map<String, String> parameter = new HashMap<>();
+
+        parameter.put("card_cvv", getCard_cvv());
+        parameter.put("card_number", getCard_number());
+        parameter.put("card_exp_month", String.valueOf(getCard_exp_month()));
+        parameter.put("card_exp_year", String.valueOf(getCard_exp_year()));
+
+        if(isSecure()) {
+            parameter.put("secure", String.valueOf(isSecure()));
+            parameter.put("gross_amount", getGross_amount());
+        }
+
+        if(isAuthorize()) {
+            parameter.put("type", "authorize");
+        }
+
+        return parameter;
     }
 
     public String getParamUrl(){

@@ -14,6 +14,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URI;
+import java.util.Map;
 import java.util.Objects;
 
 import id.co.veritrans.android.api.VTInterface.ITokenCallback;
@@ -47,16 +48,17 @@ public class VTDirect extends VTBaseTransactionMethod {
     @Override
     public void getToken(ITokenCallback callback) {
         if(callback != null && getCard_details() != null){
-            String url = VTConfig.getTokenUrl() + getCard_details().getParamUrl();
-            new GetTokenAsync(callback).execute(url);
+            new GetTokenAsync(callback, getCard_details().getParamMap()).execute(VTConfig.getTokenUrl());
         }
     }
 
     class GetTokenAsync extends AsyncTask<String,Void,Object>{
 
         ITokenCallback callback;
-        public  GetTokenAsync(ITokenCallback callback){
+        Map<String, String> parameter;
+        public  GetTokenAsync(ITokenCallback callback, Map<String, String> parameter){
             this.callback = callback;
+            this.parameter = parameter;
         }
 
         @Override
@@ -67,11 +69,11 @@ public class VTDirect extends VTBaseTransactionMethod {
                 RestAdapter restAdapter = new RestAdapter.Builder().setEndpoint(url).build();
                 GetToken getToken = restAdapter.create(GetToken.class);
 
-                VTToken token = getToken.doGetToken();
+                VTToken token = getToken.doGetToken(this.parameter);
 
                 if(token.getStatus_code() == 200){
                     return token;
-                }else{
+                } else {
                     return new Exception(token.getStatus_message());
                 }
 
