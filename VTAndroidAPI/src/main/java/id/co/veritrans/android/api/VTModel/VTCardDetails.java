@@ -1,7 +1,5 @@
 package id.co.veritrans.android.api.VTModel;
 
-import com.google.gson.Gson;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -81,6 +79,7 @@ public class VTCardDetails {
     public Map<String, String> getParamMap() {
         Map<String, String> parameter = new HashMap<>();
 
+        parameter.put("client_key", VTConfig.CLIENT_KEY);
         parameter.put("card_cvv", getCard_cvv());
         parameter.put("card_number", getCard_number());
         parameter.put("card_exp_month", String.valueOf(getCard_exp_month()));

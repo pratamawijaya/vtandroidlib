@@ -1,11 +1,6 @@
 package id.co.veritrans.android.api;
 
-import java.util.List;
-
 import id.co.veritrans.android.api.VTInterface.ITokenCallback;
-import id.co.veritrans.android.api.VTModel.VTCustomerDetails;
-import id.co.veritrans.android.api.VTModel.VTItemDetails;
-import id.co.veritrans.android.api.VTModel.VTTransactionDetails;
 
 /**
  * Created by Anis on 11/11/2014.

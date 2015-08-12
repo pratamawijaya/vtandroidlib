@@ -29,7 +29,7 @@ public abstract class VTBaseTransactionMethod {
     }
 
     public interface GetToken {
-        @GET("/")
+        @GET("/token")
         VTToken doGetToken(@QueryMap Map<String, String> option);
     }
 

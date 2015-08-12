@@ -1,7 +1,5 @@
 package id.co.veritrans.android.api.VTModel;
 
-import java.util.List;
-
 /**
  * Created by Anis on 11/11/2014.
  */
