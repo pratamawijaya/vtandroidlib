@@ -1,14 +1,11 @@
 package id.co.veritrans.android.api;
 
 import android.os.AsyncTask;
-import android.util.Log;
-
-import java.util.Map;
-
 import id.co.veritrans.android.api.VTInterface.ITokenCallback;
 import id.co.veritrans.android.api.VTModel.VTCardDetails;
 import id.co.veritrans.android.api.VTModel.VTToken;
 import id.co.veritrans.android.api.VTUtil.VTConfig;
+import java.util.Map;
 import retrofit.RestAdapter;
 
 /**
@@ -62,7 +59,7 @@ public class VTDirect extends VTBaseTransactionMethod {
                 if(token.getStatus_code() == 200){
                     return token;
                 } else {
-                    return new Exception(token.getStatus_message());
+                    return new Exception(""+token.getStatus_code());
                 }
 
             } catch (IllegalArgumentException e){
